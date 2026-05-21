@@ -1,23 +1,39 @@
-class GameError(Exception):
-    """Custom exception for game-related errors."""
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
+class GameException(Exception):
+    """Base class for game-related exceptions."""
+    pass
+
+class InvalidInputError(GameException):
+    """Raised when the input is invalid."""
+    def __init__(self, message):
         self.message = message
+        super().__init__(self.message)
 
-class PlayerNotFoundError(GameError):
-    """Exception raised when a player is not found."""
-    def __init__(self, player_id: str) -> None:
-        super().__init__(f'Player with ID {player_id} not found.')
-        self.player_id = player_id
+class ResourceNotFoundError(GameException):
+    """Raised when a game resource is not found."""
+    def __init__(self, resource):
+        self.resource = resource
+        self.message = f'Resource {resource} not found'
+        super().__init__(self.message)
 
-class InvalidMoveError(GameError):
-    """Exception raised for illegal moves in the game."""
-    def __init__(self, move: str) -> None:
-        super().__init__(f'Invalid move: {move}.')
-        self.move = move
+class GameOverError(GameException):
+    """Raised when the game is over."""
+    def __init__(self):
+        self.message = 'The game is already over'
+        super().__init__(self.message)
 
-class GameStateError(GameError):
-    """Exception raised for invalid game state transitions."""
-    def __init__(self, state: str) -> None:
-        super().__init__(f'Invalid state transition for state: {state}.')
-        self.state = state
+# Example usage:
+if __name__ == '__main__':
+    try:
+        raise InvalidInputError('Only numbers are accepted.')
+    except GameException as e:
+        print(e)
+
+    try:
+        raise ResourceNotFoundError('Player1')
+    except GameException as e:
+        print(e)
+
+    try:
+        raise GameOverError()
+    except GameException as e:
+        print(e)
