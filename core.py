@@ -1,38 +1,29 @@
-import random
-import time
+from typing import List, Dict, Any
 
-def start_game():
-    print("Welcome to the game!")
-    time.sleep(1)
-    player_name = input("Enter your name: ")
-    print(f"Hello, {player_name}! Let's start!")
-    return player_name
+class Game:
+    def __init__(self, name: str, genre: str, rating: float) -> None:
+        self.name = name
+        self.genre = genre
+        self.rating = rating
 
-def generate_enemy():
-    enemies = ['Goblin', 'Orc', 'Dragon']
-    enemy = random.choice(enemies)
-    print(f"A wild {enemy} appears!")
-    return enemy
+    def __repr__(self) -> str:
+        return f"Game(name={self.name}, genre={self.genre}, rating={self.rating})"
 
-def battle(player, enemy):
-    print(f"{player} fights the {enemy}!")
-    result = random.choice(["won", "lost"])
-    print(f"You {result} the battle!")
-    return result
+class GameLibrary:
+    def __init__(self) -> None:
+        self.games: List[Game] = []
 
-def game_loop():
-    player = start_game()
-    while True:
-        enemy = generate_enemy()
-        result = battle(player, enemy)
-        if result == 'lost':
-            print("Game Over!")
-            break
-        else:
-            continue_game = input("Continue? (y/n): ")
-            if continue_game.lower() != 'y':
-                print("Thanks for playing!")
-                break
+    def add_game(self, game: Game) -> None:
+        """Add a new game to the library."""
+        self.games.append(game)
 
-if __name__ == '__main__':
-    game_loop()
+    def get_game_by_name(self, name: str) -> Game:
+        """Retrieve a game by its name."""
+        for game in self.games:
+            if game.name == name:
+                return game
+        raise ValueError(f"Game with name '{name}' not found.")
+
+    def get_all_games(self) -> List[Dict[str, Any]]:
+        """Return a list of all games in the library."""
+        return [{'name': game.name, 'genre': game.genre, 'rating': game.rating} for game in self.games]
