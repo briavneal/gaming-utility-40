@@ -1,25 +1,56 @@
-import re
+def validate_username(username):
+    if not isinstance(username, str):
+        raise ValueError("Username must be a string.")
+    if not (3 <= len(username) <= 20):
+        raise ValueError("Username must be between 3 and 20 characters.")
+    if not username.isalnum():
+        raise ValueError("Username must be alphanumeric.")
 
-def is_valid_username(username):
-    return re.match('^[A-Za-z0-9_]{3,16}$', username) is not None
 
-def is_valid_email(email):
-    regex = r'^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
-    return re.match(regex, email) is not None
+def validate_score(score):
+    if not isinstance(score, int):
+        raise ValueError("Score must be an integer.")
+    if score < 0:
+        raise ValueError("Score must be a non-negative integer.")
 
-def is_valid_password(password):
-    return (len(password) >= 8 and 
-            re.search('[A-Z]', password) and 
-            re.search('[a-z]', password) and 
-            re.search('[0-9]', password) and 
-            re.search('[^A-Za-z0-9]', password))
 
-def is_valid_game_id(game_id):
-    return isinstance(game_id, int) and game_id > 0
+def validate_level(level):
+    if not isinstance(level, int):
+        raise ValueError("Level must be an integer.")
+    if level < 1:
+        raise ValueError("Level must be at least 1.")
+
+
+def main_loop():
+    users = []
+    while True:
+        username = input("Enter your username: ")
+        try:
+            validate_username(username)
+        except ValueError as e:
+            print(e)
+            continue
+
+        score = input("Enter your score: ")
+        try:
+            validate_score(int(score))
+        except ValueError as e:
+            print(e)
+            continue
+
+        level = input("Enter your level: ")
+        try:
+            validate_level(int(level))
+        except ValueError as e:
+            print(e)
+            continue
+
+        users.append((username, score, level))
+        print(f"User {username} with score {score} and level {level} added.")
+
+        if input("Add another user? (y/n): ").lower() != 'y':
+            break
+
 
 if __name__ == '__main__':
-    # Test our validators
-    print(is_valid_username('GameHero'))  # True
-    print(is_valid_email('player@example.com'))  # True
-    print(is_valid_password('P@ssw0rd!'))  # True
-    print(is_valid_game_id(42))  # True
+    main_loop()
