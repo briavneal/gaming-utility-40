@@ -1,56 +1,30 @@
-def validate_username(username):
-    if not isinstance(username, str):
-        raise ValueError("Username must be a string.")
-    if not (3 <= len(username) <= 20):
-        raise ValueError("Username must be between 3 and 20 characters.")
-    if not username.isalnum():
-        raise ValueError("Username must be alphanumeric.")
+import re
 
+class InputValidator:
+    @staticmethod
+    def validate_username(username):
+        pattern = r'^[a-zA-Z0-9_]{3,16}$'
+        if re.match(pattern, username):
+            return True
+        raise ValueError('Invalid username')
 
-def validate_score(score):
-    if not isinstance(score, int):
-        raise ValueError("Score must be an integer.")
-    if score < 0:
-        raise ValueError("Score must be a non-negative integer.")
+    @staticmethod
+    def validate_password(password):
+        if len(password) < 8:
+            raise ValueError('Password too short')
+        if not re.search(r'[A-Z]', password):
+            raise ValueError('Password should include an uppercase letter')
+        if not re.search(r'[a-z]', password):
+            raise ValueError('Password should include a lowercase letter')
+        if not re.search(r'[0-9]', password):
+            raise ValueError('Password should include a number')
+        if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+            raise ValueError('Password should include a special character')
+        return True
 
-
-def validate_level(level):
-    if not isinstance(level, int):
-        raise ValueError("Level must be an integer.")
-    if level < 1:
-        raise ValueError("Level must be at least 1.")
-
-
-def main_loop():
-    users = []
-    while True:
-        username = input("Enter your username: ")
-        try:
-            validate_username(username)
-        except ValueError as e:
-            print(e)
-            continue
-
-        score = input("Enter your score: ")
-        try:
-            validate_score(int(score))
-        except ValueError as e:
-            print(e)
-            continue
-
-        level = input("Enter your level: ")
-        try:
-            validate_level(int(level))
-        except ValueError as e:
-            print(e)
-            continue
-
-        users.append((username, score, level))
-        print(f"User {username} with score {score} and level {level} added.")
-
-        if input("Add another user? (y/n): ").lower() != 'y':
-            break
-
-
-if __name__ == '__main__':
-    main_loop()
+    @staticmethod
+    def validate_email(email):
+        pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        if re.match(pattern, email):
+            return True
+        raise ValueError('Invalid email format')
