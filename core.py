@@ -1,29 +1,32 @@
-from typing import List, Dict, Any
+import random
 
-class Game:
-    def __init__(self, name: str, genre: str, rating: float) -> None:
-        self.name = name
-        self.genre = genre
-        self.rating = rating
+class GameUtility:
+    @staticmethod
+    def roll_dice(sides=6):
+        return random.randint(1, sides)
 
-    def __repr__(self) -> str:
-        return f"Game(name={self.name}, genre={self.genre}, rating={self.rating})"
+    @staticmethod
+    def generate_random_number(minimum, maximum):
+        return random.randint(minimum, maximum)
 
-class GameLibrary:
-    def __init__(self) -> None:
-        self.games: List[Game] = []
+    @staticmethod
+    def shuffle_list(items):
+        random.shuffle(items)
+        return items
 
-    def add_game(self, game: Game) -> None:
-        """Add a new game to the library."""
-        self.games.append(game)
+    @staticmethod
+    def choose_random_item(items):
+        return random.choice(items)
 
-    def get_game_by_name(self, name: str) -> Game:
-        """Retrieve a game by its name."""
-        for game in self.games:
-            if game.name == name:
-                return game
-        raise ValueError(f"Game with name '{name}' not found.")
+    @staticmethod
+    def is_valid_choice(choice, valid_options):
+        return choice in valid_options
 
-    def get_all_games(self) -> List[Dict[str, Any]]:
-        """Return a list of all games in the library."""
-        return [{'name': game.name, 'genre': game.genre, 'rating': game.rating} for game in self.games]
+if __name__ == '__main__':
+    utility = GameUtility()
+    print(f'Rolled Dice: {utility.roll_dice()}')
+    print(f'Random Number: {utility.generate_random_number(1, 100)}')
+    items = [1, 2, 3, 4, 5]
+    print(f'Shuffled List: {utility.shuffle_list(items)}')
+    print(f'Chosen Item: {utility.choose_random_item(items)}')
+    print(f'Is valid choice: {utility.is_valid_choice(3, items)}')
