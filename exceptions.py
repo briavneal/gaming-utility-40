@@ -1,25 +1,29 @@
-class InputValidationError(Exception):
-    """Custom exception for input validation errors."""  
+class GameError(Exception):
+    """Base class for exceptions in this game."""
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
 
-class GameInput:
-    def __init__(self):
-        self.user_input = None
+class InvalidPlayerError(GameError):
+    """Exception raised for invalid player operations."""
+    def __init__(self, player_name):
+        message = f"Player '{player_name}' is invalid."  
+        super().__init__(message)
 
-    def get_input(self):
-        self.user_input = input("Enter your move (e.g., 'a1', 'b2'): ")
-        if not self.validate_input(self.user_input):
-            raise InputValidationError(f"Invalid input: {self.user_input}")
-        return self.user_input
+class ItemNotFoundError(GameError):
+    """Exception raised when an item is not found."""
+    def __init__(self, item_name):
+        message = f"Item '{item_name}' not found."  
+        super().__init__(message)
 
-    def validate_input(self, user_input):
-        valid_moves = {'a1', 'a2', 'b1', 'b2'}  
-        return user_input in valid_moves
+class ActionNotAllowedError(GameError):
+    """Exception raised when an action isn't allowed."""
+    def __init__(self, action):
+        message = f"Action '{action}' is not allowed."  
+        super().__init__(message)
 
-if __name__ == '__main__':
-    game_input = GameInput()
-    try:
-        move = game_input.get_input()
-        print(f"You chose: {move}")
-    except InputValidationError as e:
-        print(e)  
-        print("Please enter a valid move.")
+class LevelUpError(GameError):
+    """Exception raised when leveling up goes wrong."""
+    def __init__(self, player_name, reason):
+        message = f"'{player_name}' cannot level up: {reason}"  
+        super().__init__(message)
