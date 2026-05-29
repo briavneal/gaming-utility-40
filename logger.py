@@ -1,14 +1,14 @@
 import logging
-from logging.handlers import RotatingFileHandler
 
-class Logger:
-    def __init__(self, name, log_file, max_bytes=5*1024*1024, backup_count=3):
+class GameLogger:
+    def __init__(self, name):
         self.logger = logging.getLogger(name)
         self.logger.setLevel(logging.DEBUG)
-        handler = RotatingFileHandler(log_file, maxBytes=max_bytes, backupCount=backup_count)
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.DEBUG)
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        handler.setFormatter(formatter)
-        self.logger.addHandler(handler)
+        ch.setFormatter(formatter)
+        self.logger.addHandler(ch)
 
     def debug(self, message):
         self.logger.debug(message)
@@ -25,6 +25,11 @@ class Logger:
     def critical(self, message):
         self.logger.critical(message)
 
+# Example usage
 if __name__ == '__main__':
-    app_logger = Logger('MyApp', 'app.log')
-    app_logger.info('Logger setup complete.')
+    game_logger = GameLogger('Game')
+    game_logger.info('Starting the game...')
+    game_logger.debug('Player has joined the game')
+    game_logger.warning('Low health warning!')
+    game_logger.error('An error occurred!')
+    game_logger.critical('Game crashed!')
