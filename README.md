@@ -1,40 +1,34 @@
-# Gaming Utility 4.0
+# gaming-utility-40
 
-Gaming Utility 4.0 is a Python-based solution designed to enhance your gaming experience by providing essential tools and functionality tailored for gamers and developers alike. Whether you're a casual player or a game developer, this utility offers a suite of features to streamline your gaming sessions and improve overall performance.
+A powerful Python-based utility designed to enhance your gaming experience by providing streamlined functionalities for game management and analysis. Whether you're tracking playtime, managing achievement progress, or optimizing settings, gaming-utility-40 simplifies the process for gamers of all levels.
 
 ## Features
 
-- **In-Game Timer**: Keep track of game sessions with a customizable timer, allowing players to manage their time effectively and avoid extended gaming marathons.
-- **Resource Monitor**: Monitor system performance while playing, providing real-time data on CPU and memory usage to optimize game settings for peak performance.
-- **Game Library Manager**: Organize your games with a user-friendly interface that allows you to add, remove, and categorize your titles for easy access.
-- **Mod Installation Wizard**: Simplify the installation of game mods with an intuitive wizard that handles file placements and configurations automatically.
+- **Comprehensive Game Tracker**: Monitor your playtime across multiple games with a user-friendly interface that logs hours played and session reports.
+- **Achievement Management**: Track your achievements and unlock progress for various games, allowing you to set personal goals and milestones.
+- **Performance Optimization**: Automatically adjust game settings based on hardware specifications to ensure optimal performance and smoother gameplay.
+- **Custom Notifications**: Receive customizable alerts for game updates, new releases, or when your friends come online, ensuring you never miss a moment.
 
 ## Installation
 
-To install Gaming Utility 4.0, ensure you have Python 3.6 or later installed on your system. Then, run the following commands in your terminal:
+To install gaming-utility-40, ensure you have Python 3.8 or above. Then, run the following commands:
 
 ```bash
-git clone https://github.com/developer/gaming-utility-40.git
+git clone https://github.com/Developer/gaming-utility-40.git
 cd gaming-utility-40
 pip install -r requirements.txt
 ```
 
 ## Basic Usage
 
-After completing the installation, you can start the utility by running:
+After installation, you can start using gaming-utility-40 by running the following command in your terminal:
 
 ```bash
 python main.py
 ```
 
-Once launched, you will be greeted with a menu where you can select features like the In-Game Timer or Game Library Manager to start using them immediately.
+Follow the prompts to set up your account, add games, and start tracking your achievements.
 
-![Gaming Utility Screenshot](screenshot.png)  <!-- Add a relevant screenshot as needed -->
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-## License
-
-![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
-
-For more information, contributions, and support, please visit the [GitHub repository](https://github.com/developer/gaming-utility-40).
+This open-source utility is licensed under the MIT License. Feel free to contribute through issues and pull requests, as we aim to continuously improve the functionality and effectiveness of gaming-utility-40 for gamers everywhere.
