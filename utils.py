@@ -4,31 +4,25 @@ import random
 class NetworkError(Exception):
     pass
 
-def retry_network_operation(max_retries=3, delay=2):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            for attempt in range(1, max_retries + 1):
-                try:
-                    return func(*args, **kwargs)
-                except NetworkError:
-                    if attempt < max_retries:
-                        wait_time = delay * (2 ** (attempt - 1)) + random.uniform(0, 1)
-                        print(f'Attempt {attempt} failed, retrying in {wait_time:.2f} seconds...')
-                        time.sleep(wait_time)
-                    else:
-                        raise
-        return wrapper
-    return decorator
+def retry_network_operation(op, retries=5, delay=2):
+    attempt = 0
+    while attempt < retries:
+        try:
+            return op()
+        except NetworkError as e:
+            print(f'Attempt {attempt + 1} failed: {e}')
+            time.sleep(delay)
+            attempt += 1
+    raise Exception('Max retries exceeded')
 
-@retry_network_operation(max_retries=5)
-def simulate_network_request():
-    if random.random() < 0.7:
+def simulated_network_operation():
+    if random.choice([True, False]):
         raise NetworkError('Simulated network failure')
-    return 'Network request succeeded'
+    return 'Network operation successful!'
 
 if __name__ == '__main__':
     try:
-        result = simulate_network_request()
+        result = retry_network_operation(simulated_network_operation)
         print(result)
-    except NetworkError as e:
-        print(f'Operation failed after retries: {e}')
+    except Exception as e:
+        print(e)
