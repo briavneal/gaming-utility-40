@@ -1,26 +1,34 @@
-import time
 import random
-import requests
+import time
 
-def retry_request(url, max_retries=5, backoff_factor=1):
-    retries = 0
-    while retries < max_retries:
-        try:
-            response = requests.get(url)
-            response.raise_for_status()  # Raise an error for bad responses
-            return response.json()  # Parse JSON if successful
-        except requests.exceptions.RequestException as e:
-            retries += 1
-            wait_time = backoff_factor * (2 ** (retries - 1)) + random.uniform(0, 1)
-            print(f'Attempt {retries} failed: {e}. Retrying in {wait_time:.2f} seconds...')
-            time.sleep(wait_time)
-    raise Exception('Max retries exceeded')
+class GameHandler:
+    def __init__(self, players):
+        self.players = players
+        self.scores = {player: 0 for player in players}
 
-# Example usage:
+    def play_round(self):
+        results = {player: random.randint(1, 10) for player in self.players}
+        self.update_scores(results)
+        return results
+
+    def update_scores(self, results):
+        for player, score in results.items():
+            self.scores[player] += score
+
+    def get_winner(self):
+        winner = max(self.scores, key=self.scores.get)
+        return winner, self.scores[winner]
+
+    def display_scores(self):
+        print("Current Scores:")
+        for player, score in self.scores.items():
+            print(f"{player}: {score}")
+
 if __name__ == '__main__':
-    url = 'https://api.example.com/data'
-    try:
-        data = retry_request(url)
-        print(data)
-    except Exception as e:
-        print(f'Failed to retrieve data: {e}')
+    game = GameHandler(['Alice', 'Bob', 'Charlie'])
+    for _ in range(5):
+        game.play_round()
+        game.display_scores()
+        time.sleep(1)
+    winner, score = game.get_winner()
+    print(f"Winner: {winner} with score {score}")
